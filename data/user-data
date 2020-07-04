@@ -1,0 +1,14 @@
+#cloud-config
+package_upgrade: true
+packages:
+- httpd
+- xfsprogs
+runcmd:
+- parted /dev/xvdf --script -- mklabel gpt
+- parted /dev/xvdf --script -- mkpart primary 0% 100%
+- mkfs.xfs -L hello-aws /dev/xvdf1
+- mount -L hello-aws /var/www/html
+- echo "LABEL=hello-aws  /var/www/html  xfs  defaults,nofail  0  2" >> /etc/fstab
+- echo "Hello AWS World" > /var/www/html/index.html
+- service httpd start
+- chkconfig httpd on
