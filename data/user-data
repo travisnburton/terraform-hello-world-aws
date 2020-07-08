@@ -4,6 +4,7 @@ packages:
 - httpd
 - xfsprogs
 runcmd:
+- yum update -y
 - parted /dev/xvdf --script -- mklabel gpt
 - parted /dev/xvdf --script -- mkpart primary 0% 100%
 - mkfs.xfs -L hello-aws /dev/xvdf1
